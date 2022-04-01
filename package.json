@@ -4,8 +4,38 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test-int": "jest NODE_ENV=test --detectOpenHandles tests/integration",
+    "test-unit": "jest NODE_ENV=test --detectOpenHandles tests/unit",
+    "local": "cross-env NODE_ENV=local nodemon server.ts",
+    "dev": "cross-env NODE_ENV=development nodemon server.ts",
+    "build": "npm run test-int && tsc -p .",
+    "start": "cross-env NODE_ENV=production node dist/server"
   },
   "author": "Will Constable",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.12",
+    "@types/jest": "^27.4.1",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^17.0.23",
+    "@types/supertest": "^2.0.12",
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-validation": "^3.0.8",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.9"
+  }
 }
