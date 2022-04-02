@@ -30,14 +30,16 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
           })
         } else {
           res.status(400).json({
-          success: false
+          success: false,
+          msg: 'Error creating new user'
           })
         }
       })
     }
   } catch (err) {
     res.status(400).json({
-      success: false
+      success: false,
+      msg: 'Error registering'
     })
   }
 }

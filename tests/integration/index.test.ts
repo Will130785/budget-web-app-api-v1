@@ -57,5 +57,6 @@ describe('Integration tests for auth routes', () => {
 })
 
 afterAll(async () => {
+  await mongoose.connection.db.dropDatabase()
   await mongoose.disconnect()
 })
