@@ -1,7 +1,11 @@
 import { testController } from './testController'
-import { register } from './auth'
+import { register, login } from './auth'
+import { addBudget, getAllBudgets } from './budget'
 
 export default {
   testController,
-  register
+  register,
+  login,
+  addBudget,
+  getAllBudgets
 }

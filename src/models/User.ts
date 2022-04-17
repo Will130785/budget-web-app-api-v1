@@ -1,7 +1,14 @@
 import mongoose from 'mongoose'
-import { IUser } from '../../types/User'
+import { IUser } from '../../types/IUser'
 
 const newUserSchema = new mongoose.Schema<IUser>({
+  id: {
+    type: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
   username: {
     type: String,
     required: true
@@ -9,6 +16,24 @@ const newUserSchema = new mongoose.Schema<IUser>({
   password: {
     type: String,
     required: true
+  },
+  budgetData: {
+    budgets: [
+      {
+        title: {
+          type: String
+        },
+        timeline: {
+          type: String
+        },
+        amount: {
+          type: Number
+        },
+        current: {
+          type: Boolean
+        }
+      }
+    ]
   }
 })
 

@@ -1,7 +1,9 @@
 import { Router } from 'express'
-const router = Router()
+const router = Router({ mergeParams: true })
 import controllers from '../controllers/index'
 import { validate, Joi } from 'express-validation'
+import passport from 'passport'
+import('../app/middleware/passport')
 
 // Test route
 router.get('/test', controllers.testController)
@@ -14,5 +16,25 @@ router.post('/register', validate({
     confirmPassword: Joi.any().valid(Joi.ref('password')).required()
   }).options({ presence: 'required' })
 }, {}, {}), controllers.register)
+
+router.post('/login', validate({
+  body: Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required()
+  }).options({ presence: 'required' })
+}, {}, {}), controllers.login)
+
+// Add budget route
+router.post('/budget', validate({
+  body: Joi.object({
+    title: Joi.string().required(),
+    timeline: Joi.string().required(),
+    amount: Joi.number().required(),
+    current: Joi.boolean().required()
+  }).options({ presence: 'required' })
+}, {}, {}), passport.authenticate('jwt', { session: false }), controllers.addBudget)
+
+// Get all budgets
+router.get('/budget', passport.authenticate('jwt', { session: false }), controllers.getAllBudgets)
 
 export default router
