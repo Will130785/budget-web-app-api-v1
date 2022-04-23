@@ -31,7 +31,8 @@ const newUserSchema = new mongoose.Schema<IUser>({
         },
         current: {
           type: Boolean
-        }
+        },
+        categories: []
       }
     ]
   }

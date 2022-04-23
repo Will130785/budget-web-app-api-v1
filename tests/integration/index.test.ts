@@ -143,6 +143,42 @@ describe('Integration tests for budget routes', () => {
   })
 })
 
+describe('Integration tests for adding category route', () => {
+  test('recieve 400 status code when no data sent', async () => {
+    const res = await request(app).post('/category')
+    .set({
+      Authorization: `Bearer ${token}`
+    })
+    expect(res.status).toEqual(400)
+  })
+
+  test('recieve 201 status code for successfully added category', async () => {
+    const res = await request(app).post('/category')
+    .send({
+      title: 'Test 1',
+      amount: 400,
+      currentBudger: 'Test budget'
+    })
+    .set({
+      Authorization: `Bearer ${token}`
+    })
+    expect(res.statusCode).toEqual(201)
+  })
+
+  test('receive 200 error if category already exists', async () => {
+    const res = await request(app).post('/category')
+    .send({
+      title: 'Test 1',
+      amount: 400,
+      currentBudget: 'Test budget'
+    })
+    .set({
+      Authorization: `Bearer ${token}`
+    })
+    expect(res.statusCode).toEqual(200)
+  })
+})
+
 afterAll(async () => {
   await mongoose.connection.db.dropDatabase()
   await mongoose.disconnect()

@@ -37,4 +37,13 @@ router.post('/budget', validate({
 // Get all budgets
 router.get('/budget', passport.authenticate('jwt', { session: false }), controllers.getAllBudgets)
 
+// Add category route
+router.post('/category', validate({
+  body: Joi.object({
+    title: Joi.string().required(),
+    amount: Joi.number().required(),
+    currentBudget: Joi.string().required()
+  }).options({ presence: 'required' })
+}, {}, {}), passport.authenticate('jwt', { session: false }), controllers.addCategory)
+
 export default router

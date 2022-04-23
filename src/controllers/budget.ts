@@ -7,7 +7,6 @@ const addBudget = async (req: Request, res: Response, next: NextFunction) => {
   // Get data from body
   const data = req.body
   const userData = req.user
-  console.log('RUNING')
   try {
     // Save data to mongo
     if (userData) {
@@ -32,31 +31,31 @@ const addBudget = async (req: Request, res: Response, next: NextFunction) => {
           }
           user.budgetData.budgets.push(data)
           user.save()
-          res.status(201).json({
+          return res.status(201).json({
             msg: 'Budget created',
             success: true,
             user
           })
         } else {
-          res.status(200).json({
+          return res.status(200).json({
             msg: 'Budget of that name already exists',
             success: false
           })
         }
       } else {
-        res.status(400).json({
+        return res.status(400).json({
           msg: 'Error saving budget',
           success: false
         })
       }
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         msg: 'No user data',
         success: false
       })
     }
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false, 
       msg: 'Error adding budget',
       err
@@ -71,19 +70,19 @@ const getAllBudgets = async (req: Request, res: Response, next: NextFunction) =>
     const user = await getById(userData._id)
     if (user) {
       const budgets = user.budgetData.budgets
-      res.status(200).json({
+      return res.status(200).json({
         msg: 'Budgets successfully found',
         success: true,
         budgets
       })
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         msg: 'Unable to find budgets',
         success: false
       })
     }
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       msg: 'Error getting budgets',
       success: false,
       err
