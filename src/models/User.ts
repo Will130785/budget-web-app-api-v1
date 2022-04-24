@@ -30,7 +30,8 @@ const newUserSchema = new mongoose.Schema<IUser>({
           type: Number
         },
         current: {
-          type: Boolean
+          type: Boolean,
+          default: false
         },
         categories: []
       }

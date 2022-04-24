@@ -30,7 +30,7 @@ router.post('/budget', validate({
     title: Joi.string().required(),
     timeline: Joi.string().required(),
     amount: Joi.number().required(),
-    current: Joi.boolean().required()
+    current: Joi.boolean().optional()
   }).options({ presence: 'required' })
 }, {}, {}), passport.authenticate('jwt', { session: false }), controllers.addBudget)
 

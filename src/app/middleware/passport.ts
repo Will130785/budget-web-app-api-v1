@@ -21,7 +21,7 @@ passport.use(
         return done('No user object')
       } else if (jwtPayload.id) {
         return getById(jwtPayload.id)
-        .then(user => {
+        .then((user) => {
           return done(null, user)
         })
         .catch(err => {

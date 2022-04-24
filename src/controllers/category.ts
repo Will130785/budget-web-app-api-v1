@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { getById } from '../dataAccess/user'
+import { ICategory } from '../../types/ICategory'
+import { IBudget } from '../../types/IBudget'
 
 const addCategory = async (req: Request, res: Response, next: NextFunction) => {
   // Get data from body
@@ -11,28 +13,24 @@ const addCategory = async (req: Request, res: Response, next: NextFunction) => {
     const user = await getById(userData._id)
     if (user) {
       // Get correct budget
-      let budget
-      // @ts-ignore
-      let existing
-      // @ts-ignore
-      user.budgetData.budgets.forEach(item => {
+      let budget: IBudget | undefined
+      let existing: ICategory | undefined
+      
+      user.budgetData.budgets.forEach((item: any) => {
         console.log(item)
-        // @ts-ignore
-        if (item.title === data.currentBudget) {
+        if ('title' in item && item.title === data.currentBudget) {
           budget = item
           // Check if category already exists
-          // @ts-ignore
-          item.categories.forEach(catItem => {
+          
+          item.categories.forEach((catItem: ICategory) => {
             if (catItem.title === data.title) {
               existing = catItem
             }
           })
-          // @ts-ignore
           if (existing) {
             return   
           }
           // If not returned category is available and we save
-          // @ts-ignore
           item.categories.push({
             title: data.title,
             amount: data.amount

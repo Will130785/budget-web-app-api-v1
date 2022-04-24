@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
-import User from '../models/User'
 import { getById } from '../dataAccess/user'
-import { IUser } from '../../types/IUser'
 
 const addBudget = async (req: Request, res: Response, next: NextFunction) => {
   // Get data from body
   const data = req.body
   const userData = req.user
+  console.log('USER', req.user)
   try {
     // Save data to mongo
     if (userData) {
@@ -16,8 +15,7 @@ const addBudget = async (req: Request, res: Response, next: NextFunction) => {
         // Check if budget exists
         let budgetExists = false
         user.budgetData.budgets.forEach(item => {
-          // @ts-ignore
-          if (item.title === data.title) {
+          if ('title' in item && item.title === data.title) {
             budgetExists = true
           }
         })
@@ -25,8 +23,9 @@ const addBudget = async (req: Request, res: Response, next: NextFunction) => {
           // Check if new budget has set as current and if so ensure all other records are set to false
           if (data.current) {
             user.budgetData.budgets.forEach(item => {
-              // @ts-ignore
-              item.current = false
+              if ('current' in item) {
+                item.current = false
+              }
             })
           }
           user.budgetData.budgets.push(data)
