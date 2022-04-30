@@ -34,6 +34,18 @@ router.post('/budget', validate({
   }).options({ presence: 'required' })
 }, {}, {}), passport.authenticate('jwt', { session: false }), controllers.addBudget)
 
+// Edit budget route
+router.put('/budget', validate({
+  body: Joi.object({
+    title: Joi.string().required(),
+    timeline: Joi.string().required(),
+    amount: Joi.number().required(),
+    current: Joi.boolean().optional(),
+    categories: Joi.array().required(),
+    bIndex: Joi.number().required(),
+  }).options({ presence: 'required' })
+}, {}, {}), passport.authenticate('jwt', { session: false }), controllers.editBudget)
+
 // Get all budgets
 router.get('/budget', passport.authenticate('jwt', { session: false }), controllers.getAllBudgets)
 
@@ -45,5 +57,16 @@ router.post('/category', validate({
     currentBudget: Joi.string().required()
   }).options({ presence: 'required' })
 }, {}, {}), passport.authenticate('jwt', { session: false }), controllers.addCategory)
+
+// Edit category route
+router.put('/category', validate({
+  body: Joi.object({
+    title: Joi.string().required(),
+    amount: Joi.number().required(),
+    currentBudget: Joi.string().required(),
+    bIndex: Joi.number().required(),
+    cIndex: Joi.number().required()
+  }).options({ presence: 'required' })
+}, {}, {}), passport.authenticate('jwt', { session: false }), controllers.editCategory)
 
 export default router
